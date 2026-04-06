@@ -72,7 +72,92 @@ function App() {
     <div className="app-container">
       <header className="game-header">
         <h1>Rock Paper <span className="highlight">Scissors</span></h1>
+        <button className="btn-reset" onClick={resetAll}>Reset Game</button>
       </header>
+
+      <main className="game-screen">
+        <div className="top-dashboard">
+          <div className="score-board">
+            <div className="score-side">
+              <span className="player-label">You</span>
+              <span className="score-value">{score.user}</span>
+            </div>
+            <div className="score-divider">vs</div>
+            <div className="score-side">
+              <span className="player-label">Computer</span>
+              <span className="score-value">{score.computer}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="game-main">
+          {!userChoice ? (
+            <div className="selection-area">
+              <h2 className="prompt">Choose your move</h2>
+              <div className="choices-row">
+                {CHOICES.map((choice) => (
+                  <button 
+                    key={choice.id} 
+                    className="choice-card"
+                    onClick={() => handleClick(choice.id)}
+                  >
+                    <div className="choice-emoji">{choice.emoji}</div>
+                    <span className="choice-name">{choice.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="battle-arena">
+              <div className="battle-display">
+                <div className="fighter">
+                  <span className="fighter-label">You</span>
+                  <div className="fighter-box">
+                    {userChoice.emoji}
+                  </div>
+                </div>
+                
+                <div className="vs-sign">VS</div>
+                
+                <div className="fighter">
+                  <span className="fighter-label">Computer</span>
+                  <div className="fighter-box">
+                    {computerChoice.emoji}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="battle-results">
+                <h2 className={`result-text ${result.includes('win') ? 'win' : result.includes('tie') ? 'tie' : 'lose'}`}>
+                  {result}
+                </h2>
+                <button className="btn-action" onClick={nextRound}>
+                  Play Again
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {history.length > 0 && (
+          <section className="history-tray">
+            <div className="tray-header">
+              <h3>Recent Games</h3>
+            </div>
+            <div className="log-list">
+              {history.map((item, index) => (
+                <div key={index} className={`log-entry ${item.won ? 'victory' : ''}`}>
+                  <span className="log-round">#{item.round}</span>
+                  <div className="log-clash">
+                    {item.user} vs {item.computer}
+                  </div>
+                  <span className="log-status">{item.result}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
     </div>
   )
 }
