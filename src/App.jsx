@@ -9,6 +9,12 @@ const CHOICES = [
 ];
 
 function App() {
+  const [userChoice, setUserChoice] = useState(null);
+  const [computerChoice, setComputerChoice] = useState(null);
+  const [result, setResult] = useState("");
+  const [score, setScore] = useState({ user: 0, computer: 0 });
+  const [rounds, setRounds] = useState(0);
+
   return (
     <div className="app-container">
       <header className="game-header">
