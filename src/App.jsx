@@ -8,6 +8,11 @@ const CHOICES = [
   { id: 'scissor', emoji: '✂️', name: 'Scissor', color: 'hsl(150, 80%, 60%)' }
 ];
 
+// Pure(ish) logic for the computer's choice, separated from render cycle
+const selectComputerChoice = () => {
+  return CHOICES[Math.floor(Math.random() * CHOICES.length)];
+};
+
 function App() {
   const [userChoice, setUserChoice] = useState(null);
   const [computerChoice, setComputerChoice] = useState(null);
@@ -15,10 +20,6 @@ function App() {
   const [score, setScore] = useState({ user: 0, computer: 0 });
   const [rounds, setRounds] = useState(0);
   const [history, setHistory] = useState([]);
-
-  const selectComputerChoice = () => {
-    return CHOICES[Math.floor(Math.random() * CHOICES.length)];
-  };
 
   const handleClick = (choiceId) => {
     const userPick = CHOICES.find(c => c.id === choiceId);
