@@ -14,6 +14,7 @@ function App() {
   const [result, setResult] = useState("");
   const [score, setScore] = useState({ user: 0, computer: 0 });
   const [rounds, setRounds] = useState(0);
+  const [history, setHistory] = useState([]);
 
   const selectComputerChoice = () => {
     return CHOICES[Math.floor(Math.random() * CHOICES.length)];
@@ -43,6 +44,13 @@ function App() {
     }
 
     setResult(roundResult);
+    setHistory(prev => [{
+      user: userPick.emoji,
+      computer: computerPick.emoji,
+      result: roundResult,
+      round: rounds + 1,
+      won: roundResult === "You win!"
+    }, ...prev].slice(0, 50)); 
   };
 
   const nextRound = () => {
@@ -57,6 +65,7 @@ function App() {
     setResult("");
     setScore({ user: 0, computer: 0 });
     setRounds(0);
+    setHistory([]);
   };
 
   return (
