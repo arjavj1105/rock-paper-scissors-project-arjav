@@ -15,6 +15,50 @@ function App() {
   const [score, setScore] = useState({ user: 0, computer: 0 });
   const [rounds, setRounds] = useState(0);
 
+  const selectComputerChoice = () => {
+    return CHOICES[Math.floor(Math.random() * CHOICES.length)];
+  };
+
+  const handleClick = (choiceId) => {
+    const userPick = CHOICES.find(c => c.id === choiceId);
+    const computerPick = selectComputerChoice();
+    
+    setUserChoice(userPick);
+    setComputerChoice(computerPick);
+    setRounds(prev => prev + 1);
+
+    let roundResult = "";
+    if (choiceId === computerPick.id) {
+      roundResult = "It's a tie!";
+    } else if (
+      (choiceId === "rock" && computerPick.id === "scissor") ||
+      (choiceId === "paper" && computerPick.id === "rock") ||
+      (choiceId === "scissor" && computerPick.id === "paper")
+    ) {
+      roundResult = "You win!";
+      setScore(prev => ({ ...prev, user: prev.user + 1 }));
+    } else {
+      roundResult = "Computer wins!";
+      setScore(prev => ({ ...prev, computer: prev.computer + 1 }));
+    }
+
+    setResult(roundResult);
+  };
+
+  const nextRound = () => {
+    setUserChoice(null);
+    setComputerChoice(null);
+    setResult("");
+  };
+
+  const resetAll = () => {
+    setUserChoice(null);
+    setComputerChoice(null);
+    setResult("");
+    setScore({ user: 0, computer: 0 });
+    setRounds(0);
+  };
+
   return (
     <div className="app-container">
       <header className="game-header">
